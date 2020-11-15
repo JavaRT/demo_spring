@@ -12,15 +12,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StudentService {
     private final StudentRepository studentRepository;
+
     public List<Student> findAll() {
         return studentRepository.findAll();
     }
+
     public Optional<Student> find(Long id) {
         return studentRepository.findById(id);
     }
+
     public void save(Student student) {
         studentRepository.save(student);
     }
+
     public void delete(Long id){
         studentRepository.deleteById(id);
     }
