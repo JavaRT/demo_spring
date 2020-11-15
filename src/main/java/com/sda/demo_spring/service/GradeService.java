@@ -19,7 +19,15 @@ public class GradeService {
         return studentRepository.findById(studentId);
     }
 
+    public Optional<Grade> findGradeById(Long gradeId) {
+        return gradeRepository.findById(gradeId);
+    }
+
     public void save(Grade grade) {
         gradeRepository.save(grade);
+    }
+
+    public void deleteById(Long id){
+        gradeRepository.deleteById(id);
     }
 }

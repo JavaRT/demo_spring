@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
+
 @Controller
 @RequestMapping("/grade")
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class GradeController {
 
     //############## FORM ##############\\
     @GetMapping("/form")
-    public String getGradeForm(Model model, @RequestParam("studentId") Long studentId){
+    public String getGradeForm(Model model, @RequestParam("studentId") Long studentId) {
         model.addAttribute("addedGrade", new Grade());
         model.addAttribute("allSubjects", GradeSubject.values());
         model.addAttribute("studentId", studentId);
@@ -30,9 +31,9 @@ public class GradeController {
     }
 
     @PostMapping("")
-    public String submitFormData(Grade grade, @RequestParam("studentIdParam") Long studentId){
+    public String submitFormData(Grade grade, @RequestParam("studentIdParam") Long studentId) {
         Optional<Student> studentOptional = gradeService.findById(studentId);
-        if(studentOptional.isPresent()) {
+        if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
 
             grade.setStudent(student);
@@ -43,6 +44,17 @@ public class GradeController {
     }
 
     //############## DELETE ##############\\
+    @GetMapping("/{id}")
+    public String deleteGrade(@RequestParam("id") Long gradeId) {
+        Optional<Grade> gradeOptional = gradeService.findGradeById(gradeId);
+        if (gradeOptional.isPresent()) {
+            Grade g = gradeOptional.get();
+
+            gradeService.deleteById(gradeId);
+            return "redirect:/student/" + g.getStudent().getId();
+        }
+        return "redirect:/student";
+    }
 
     //############## GET ##############\\
 
